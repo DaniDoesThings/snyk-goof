@@ -1,0 +1,28 @@
+name: sbomcreator
+on:
+  pull_request
+
+jobs:
+  createsbom:
+    runs-on: ubuntu-latest
+    steps:       
+      - name: checkout
+        uses: actions/checkout@v2
+      
+      - name: Use Node.js for installing cyclonedx 
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.4
+      
+      - name: Install and Prep CDX
+        run: npm install --location=global @cyclonedx/cdxgen
+
+      - name: generate sbom
+        run: |
+          cdxgen -o bom.json
+          
+      - name: upload sbom
+        uses: actions/upload-artifact@v3
+        with:
+          name: bom
+          path: bom.json
