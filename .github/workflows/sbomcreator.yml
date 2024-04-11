@@ -1,4 +1,4 @@
-name: sbomcreator
+name: sbomcreation
 on:
   pull_request
 
